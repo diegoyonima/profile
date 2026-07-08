@@ -122,26 +122,27 @@
             background: var(--bg-input);
             color: var(--text-heading);
             border: 1px solid var(--border-color);
-            padding: 8px 14px;
-            border-radius: 20px;
+            padding: 8px 12px;
+            border-radius: 50%;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-family: 'Montserrat', sans-serif;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
             transition: all 0.2s ease;
             margin-left: auto; 
             position: relative;
             z-index: 1010; 
             user-select: none;
+            width: 40px;
+            height: 40px;
         }
         .theme-toggle-btn:hover {
             border-color: var(--text-muted);
             background: var(--border-color);
         }
         #themeIcon {
-            font-size: 1.1rem;
             line-height: 1;
             color: var(--text-muted); 
         }
@@ -216,7 +217,7 @@
             header { top: 0; padding: 10px 5px; }
             nav { gap: 2px; justify-content: space-between; width: 100%; }
             nav a { padding: 8px 10px; font-size: 0.75rem; border-radius: 4px; }
-            .theme-toggle-btn { margin-left: auto; padding: 6px 8px; font-size: 0.75rem; }
+            .theme-toggle-btn { margin-left: auto; width: 34px; height: 34px; font-size: 0.95rem; }
             body { padding-top: 50px; }
         }
     </style>
@@ -233,7 +234,7 @@
             <a href="#testi">Testi</a>
             
             <button id="themeToggle" class="theme-toggle-btn">
-                <span id="themeIcon">☾</span> <span id="themeText">Dark</span>
+                <span id="themeIcon">☾</span>
             </button>
         </nav>
     </header>
@@ -242,7 +243,7 @@
     <section id="home" class="fade-section visible">
         <h1>Diego Kairos</h1>
         <p style="font-size: 1.2rem; max-width: 600px; margin: 10px 0 0 0;">
-            Hey, welcome to Diego's page. Here you can find a detailed profile about him.
+            Hey welcome to Diego's page. Here you can find a detailed profile about him.
         </p>
     </section>
 
@@ -312,7 +313,6 @@
     <script>
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-        const themeText = document.getElementById('themeText');
         
         let currentTheme = localStorage.getItem('theme') || 'dark';
         document.documentElement.setAttribute('data-theme', currentTheme);
