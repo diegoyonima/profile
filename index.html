@@ -18,12 +18,11 @@
             --bg-input: #193446;       
             --border-color: #204156;   
             --text-main: #e2e8f0;      
-            --text-muted: #d3a284;     
+            --text-muted: #d3a284;     /* Sand / Krem Hangat */
             --text-heading: #ffffff;   
-            --accent: #581c24;         
-            --nav-bg: rgba(7, 21, 30, 0.75);     
-            --nav-border: rgba(18, 40, 54, 0.6);
-            --modal-overlay: rgba(4, 11, 16, 0.85);
+            --accent: #581c24;         /* Wine */
+            --nav-bg: rgba(7, 21, 30, 0.7); /* Diubah transparan untuk efek blur */         
+            --nav-border: rgba(18, 40, 54, 0.5);
         }
 
         [data-theme="light"] {
@@ -35,9 +34,8 @@
             --text-muted: #581c24;     
             --text-heading: #0b1d28;
             --accent: #d3a284;         
-            --nav-bg: rgba(255, 255, 255, 0.75); 
-            --nav-border: rgba(226, 232, 240, 0.6);
-            --modal-overlay: rgba(15, 23, 42, 0.6);
+            --nav-bg: rgba(255, 255, 255, 0.7); /* Diubah transparan untuk efek blur */
+            --nav-border: rgba(226, 232, 240, 0.5);
         }
 
         /* RESET & BASE THEME */
@@ -82,17 +80,17 @@
             letter-spacing: 0.3px;
         }
 
-        /* NAVIGATION BAR */
+        /* NAVIGATION BAR (Poin 2 & 3: Selalu di atas, Transparan, Blurry) */
         header { 
             background: var(--nav-bg); 
             border-bottom: 1px solid var(--nav-border);
             padding: 15px 20px; 
             position: fixed; 
             width: 100%; 
-            top: 0; 
+            top: 0; /* Tetap di atas untuk mobile & desktop */
             z-index: 1000;
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px); /* Efek blur/glassmorphism */
+            -webkit-backdrop-filter: blur(10px);
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         nav {
@@ -104,7 +102,7 @@
             align-items: center;
         }
         @media (min-width: 768px) { nav { justify-content: flex-start; } }
-        nav a, nav button.nav-btn { 
+        nav a { 
             color: #cbd5e1; 
             text-decoration: none; 
             font-family: 'Montserrat', sans-serif;
@@ -115,18 +113,16 @@
             font-size: 0.9rem;
             text-transform: uppercase; 
             letter-spacing: 1px;
-            background: none;
-            border: none;
             cursor: pointer;
         }
-        nav a:hover, nav button.nav-btn:hover { color: var(--text-muted); }
+        nav a:hover { color: var(--text-muted); }
         nav a.active {
             color: #ffffff !important;
             background-color: var(--accent); 
             box-shadow: 0 0 12px rgba(88, 28, 36, 0.4);
         }
 
-        /* TOGGLE BUTTON STYLE "☾" & "☼" */
+        /* TOGGLE BUTTON STYLE WITH "☾" & "☼" */
         .theme-toggle-btn {
             background: var(--bg-input);
             color: var(--text-heading);
@@ -149,29 +145,34 @@
             border-color: var(--text-muted);
             background: var(--border-color);
         }
-        #themeIcon { color: var(--text-muted); }
-
-        /* EFFEK ANIMASI FADE (SECTIONS) */
-        .pop-section {
-            opacity: 0;
-            transition: opacity 0.6s ease-in-out; 
-            will-change: opacity; 
+        #themeIcon {
+            font-size: 1.1rem;
+            line-height: 1;
+            color: var(--text-muted); 
         }
-        .pop-section.visible {
+
+        /* ANIMASI FADE IN ON SCROLL */
+        .fade-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-section.visible {
             opacity: 1;
+            transform: translateY(0);
         }
 
         /* LAYOUT SECTIONS */
         section { 
             max-width: 1200px;
             margin: 0 auto;
-            padding: 120px 15px 40px 15px; 
+            padding: 100px 15px 40px 15px; 
             min-height: 100vh; 
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        @media (min-width: 768px) { section { padding: 140px 20px 60px 20px; } }
+        @media (min-width: 768px) { section { padding: 120px 20px 60px 20px; } }
 
         /* BOX CARDS */
         .box { 
@@ -181,10 +182,82 @@
             border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s ease, border-color 0.3s ease;
+            position: relative; 
         }
         @media (min-width: 768px) { .box { padding: 25px; } }
 
-        /* GRID CONTAINER INTERNAL MODAL */
+        /* BUTTON POP UP STYLE (Poin 1) */
+        .btn-popup-trigger {
+            background-color: var(--accent);
+            color: white;
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+            align-self: flex-start;
+        }
+        .btn-popup-trigger:hover {
+            background-color: var(--text-muted);
+            color: var(--bg-body);
+            transform: translateY(-2px);
+        }
+
+        /* POPUP MODAL OVERLAY (Poin 1) */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            border-radius: 16px;
+            padding: 25px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-close:hover { color: var(--text-muted); }
+
         .grid-container { 
             display: grid; 
             grid-template-columns: 1fr; 
@@ -205,7 +278,6 @@
         }
         textarea:focus { outline: none; border-color: var(--text-muted); }
 
-        /* IFRAME RESPONSIVE */
         .iframe-wrapper {
             position: relative;
             border-radius: 12px;
@@ -213,101 +285,34 @@
             border: 1px solid var(--border-color);
             background: var(--bg-card);
         }
-        .calendar-frame { width: 100%; height: 350px; border: none; }
-        @media (min-width: 768px) { .calendar-frame { height: 450px; } }
+        .calendar-frame { width: 100%; height: 400px; border: none; }
         .padlet-frame { width: 100%; height: 450px; border: none; display: block; }
 
-        /* ==========================================
-           POP-UP MODAL SYSTEM (FADE IN/OUT EFFECT)
-           ========================================== */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--modal-overlay);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            transition: opacity 0.4s ease-in-out;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-wrapper {
-            background-color: var(--bg-body);
-            border: 1px solid var(--border-color);
-            width: 90%;
-            max-width: 1000px;
-            max-height: 85vh;
-            border-radius: 16px;
-            padding: 30px 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            overflow-y: auto;
-            position: relative;
-            transform: scale(0.92);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .modal-overlay.active .modal-wrapper {
-            transform: scale(1);
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-color);
-            color: var(--text-heading);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            z-index: 10;
-        }
-        .modal-close-btn:hover {
-            background: var(--accent);
-            color: #fff;
-            border-color: var(--accent);
-        }
-
-        /* MOBILE RESPONSIVE STYLE */
+        /* MOBILE RESPONSIVE TUNING */
         @media (max-width: 767px) {
-            header { padding: 10px 5px; }
-            nav { gap: 2px; justify-content: space-between; }
-            nav a, nav button.nav-btn { padding: 6px 6px; font-size: 0.68rem; border-radius: 4px; }
-            .theme-toggle-btn { margin-left: 0; padding: 6px 8px; font-size: 0.68rem; }
-            .modal-wrapper { padding: 20px 15px; width: 95%; max-height: 90vh; }
-            .modal-close-btn { top: 15px; right: 15px; width: 32px; height: 32px; font-size: 1rem; }
+            header {
+                top: 0; /* Dikembalikan ke atas sesuai poin 2 */
+                bottom: auto;
+                border-bottom: 1px solid var(--nav-border);
+                padding: 10px 5px;
+            }
+            nav { gap: 4px; justify-content: space-between; width: 100%; }
+            nav a { padding: 6px 10px; font-size: 0.75rem; border-radius: 4px; }
+            .theme-toggle-btn { margin-left: auto; padding: 6px 8px; font-size: 0.75rem; }
+            body { padding-top: 60px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. NAVIGATION BAR -->
+    <!-- 1. NAVIGATION BAR + THEME TOGGLE (Poin 2 & 3: Selalu di atas + Blur & Transparan) -->
     <header>
         <nav>
             <a href="#home" class="active">Home</a>
             <a href="#introduction">Intro</a>
             <a href="#availability">Avail</a>
-            <!-- Trigger Modal Pop-up -->
-            <button class="nav-btn" onclick="openModal('scheduleModal')">Schedule</button>
-            <button class="nav-btn" onclick="openModal('testimonialModal')">Testimony</button>
+            <a href="#schedule-section">Schedule</a>
+            <a href="#testimonial-section">Testi</a>
             
             <button id="themeToggle" class="theme-toggle-btn">
                 <span id="themeIcon">☾</span> <span id="themeText">Dark</span>
@@ -324,9 +329,9 @@
     </section>
 
     <!-- 3. INTRODUCTION SECTION -->
-    <section id="introduction">
+    <section id="introduction" class="fade-section">
         <h2>Introduction</h2>
-        <div class="box pop-section" style="margin-top: 20px;">
+        <div class="box" style="margin-top: 20px;">
             <p style="margin-top: 0;">I’m here to be a friend to talk to, a friend to share laughs with, and someone who truly listens. I bring warmth and care to every moment we spend together.</p>
             
             <p>I’m a simple person. I build chemistry through casual chats or deep conversations. I’m a loyal listener who never judges and a responder who is genuine and thoughtful. You can share anything with me without hesitation. I’m also a yapper—someone who loves to chat about everything, from the little details of your day to the most unexpected topics. I want to be the place where you feel safest and most comfortable. I adapt easily to any situation and follow the vibe naturally. I know when to tell stories and when to simply listen.</p>
@@ -335,51 +340,65 @@
             
             <p>I also love R&B—it feels like it represents me: chill yet intense. Some of my favorite artists are DEAN, DPR Live, Frank Ocean, and Keshi. I also enjoy playing Magic Chess Go Go, chill but still strategic. I like playing guitar and piano too, though just casually—I often jam for fun rather than seriously practicing. I’m also a fan of MotoGP and love following eSports, especially MLBB. Sharing these little passions with someone makes every moment more fun.</p>
             
-            <p style="margin-bottom: 0;">I’m not here just to be someone, but to create real and memorable moments. We'll enjoy our story together, comfortably and naturally. If you’re looking for someone to share laughter, talks, and quiet moments with, I’m here for you.</p>
+            <p style="margin-bottom: 0;">I’m not here just to be someone, but to create real and memorable moments. We’ll enjoy our story together, comfortably and naturally. If you’re looking for someone to share laughter, talks, and quiet moments with, I’m here for you.</p>
         </div>
     </section>
 
-    <!-- 4. AVAILABILITY SECTION (MURNI STATIS - TIDAK BISA DI-EDIT) -->
-    <section id="availability">
+    <!-- 4. AVAILABILITY SECTION (Poin 4: Statis dengan Teks Persis Tanpa Diubah) -->
+    <section id="availability" class="fade-section">
         <h2>Availability</h2>
-        <div class="box pop-section" style="border-left: 4px solid var(--text-muted); margin-top: 20px;">
-            <ul style="padding-left: 20px; margin: 0;">
-                <li style="margin-bottom: 8px;">Any requests (muse, name display, biography, or typing style).</li>
-                <li style="margin-bottom: 8px;">Any public display affection.</li>
-                <li style="margin-bottom: 8px;">Staying up late 01.00 A.M.</li>
-                <li style="margin-bottom: 8px;">Move platform (LINE, WhatsApp & Discord).</li>
-                <li style="margin-bottom: 8px;">In Character Idol, AU character, particular person.</li>
-                <li style="margin-bottom: 8px;">Group session.</li>
-                <li style="margin-bottom: 8px;">Listening date (spouses/discord).</li>
-                <li style="margin-bottom: 8px;">Movie date (rave).</li>
-                <li style="margin-bottom: 8px;">Game date (plato, roblox, gamee).</li>
-                <li style="margin-bottom: 8px;">Reading date (novel, alternative universe, Ao3).</li>
-                <li style="margin-bottom: 8px;">Writing date (journaling, fiction).</li>
-                <li style="margin-bottom: 8px;">Study date by chat (science & technology).</li>
-                <li style="margin-bottom: 8px;">Food & beverages date (bill on client/cust).</li>
-                <li style="margin-bottom: 8px;">SFW imagine (with/out bracket), literature.</li>
-                <li style="margin-bottom: 8px;">Playing instruments (keyboard & acoustic guitar). Please ask first and If you want to request a song, you can request it at least 1 week in before.</li>
-                <li style="margin-bottom: 8px;">On the phone (muted).</li>
-                <li style="margin-bottom: 0;">Pap daily activity (w/o face).</li>
-            </ul>
+        <div class="box" style="border-left: 4px solid var(--text-muted); margin-top: 20px;">
+            <p style="margin-top: 0; white-space: pre-line; font-weight: 400;">Any requests (muse, name display, biography, or typing style).
+Any public display affection.
+Staying up late 01.00 A.M.
+Move platform (LINE, WhatsApp & Discord).
+In Character Idol, AU character, particular person.
+Group session.
+Listening date (sposes/discord).
+Movie date (rave).
+Game date (plato, roblox, @.gamee).
+Reading date (novel, alternative universe, Ao3).
+Writing date (journaling, fiction).
+Study date by chat (science & technology).
+Food & beverages date (bill on cust).
+SFW imagine (with/out bracket), literature.
+Playing instruments (keyboard & acoustic guitar). Please ask first and If you want to request a song, you can request it at least 1 week in before.
+On the phone (muted).
+Pap daily activity (w/o face)</p>
+        </div>
+    </section>
+
+    <!-- 5. SCHEDULE SECTION (Poin 1: Dijadikan pemicu Pop-up) -->
+    <section id="schedule-section" class="fade-section">
+        <h2>Schedule & Notes</h2>
+        <div class="box" style="margin-top: 20px;">
+            <p style="margin-top:0;">Klik tombol di bawah ini untuk melihat jadwal kalender interaktif beserta catatan umum Diego.</p>
+            <button class="btn-popup-trigger" onclick="openModal('scheduleModal')">Lihat Schedule ⎙</button>
+        </div>
+    </section>
+
+    <!-- 6. TESTIMONIAL SECTION (Poin 1: Dijadikan pemicu Pop-up) -->
+    <section id="testimonial-section" class="fade-section">
+        <h2>Testimonial</h2>
+        <div class="box" style="margin-top: 20px;">
+            <p style="margin-top:0;">Klik tombol di bawah ini untuk membuka Padlet.</p>
+            <button class="btn-popup-trigger" onclick="openModal('testiModal')">Buka Testimonial ⎙</button>
         </div>
     </section>
 
 
-    <!-- ==========================================
-       POP-UP MODAL MODUL 
-       ========================================== -->
-
-    <!-- POPUP 1: SCHEDULE -->
+    <!-- ================= POPUP MODAL LAYERS ================= -->
+    
+    <!-- POPUP SCHEDULE -->
     <div id="scheduleModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'scheduleModal')">
-        <div class="modal-wrapper">
-            <button class="modal-close-btn" onclick="closeModal('scheduleModal')">&times;</button>
-            <h2 style="margin-bottom: 10px;">Schedule & Notes</h2>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('scheduleModal')">&times;</button>
+            <h2 style="font-size: 1.8rem; border-left: 4px solid var(--text-muted); padding-left: 10px; margin-bottom: 20px;">Schedule & Notes</h2>
             <div class="grid-container">
                 <div class="iframe-wrapper">
                     <iframe src="https://calendar.google.com/calendar/embed?src=diegoyonimaa%40gmail.com&ctz=Asia%2FJakarta" class="calendar-frame" scrolling="no"></iframe>
                 </div>
-                <div class="box" style="box-shadow: none;">
+                <div class="box" style="box-shadow: none; background: var(--bg-input);">
                     <h3>General Notes</h3>
                     <p style="font-size: 0.9rem; margin-bottom: 15px;">Important notes:</p>
                     <textarea rows="8" placeholder="Tulis catatan penting di sini..."></textarea>
@@ -388,12 +407,11 @@
         </div>
     </div>
 
-    <!-- POPUP 2: TESTIMONIAL -->
-    <div id="testimonialModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'testimonialModal')">
-        <div class="modal-wrapper">
-            <button class="modal-close-btn" onclick="closeModal('testimonialModal')">&times;</button>
-            <h2>Testimonial</h2>
-            <p style="margin-bottom: 20px;">Feedback collection</p>
+    <!-- POPUP TESTIMONIAL -->
+    <div id="testiModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'testiModal')">
+        <div class="modal-content" style="max-width: 900px;">
+            <button class="modal-close" onclick="closeModal('testiModal')">&times;</button>
+            <h2 style="font-size: 1.8rem; border-left: 4px solid var(--text-muted); padding-left: 10px; margin-bottom: 20px;">Testimonial Feedback</h2>
             <div class="iframe-wrapper">
                 <iframe src="https://padlet.com/embed/ujklw7h6wzofvlg2" class="padlet-frame" allow="camera; microphone; geolocation; display-capture; clipboard-write"></iframe>
             </div>
@@ -403,7 +421,7 @@
 
     <!-- JAVASCRIPT -->
     <script>
-        // 1. LIGHT / DARK MODE
+        // 1. LIGHT / DARK MODE MANAGEMENT
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         const themeText = document.getElementById('themeText');
@@ -435,33 +453,26 @@
             }
         }
 
-        // 2. POP-UP MODAL MANAGEMENT (FADE IN / FADE OUT)
+        // 2. POPUP MODAL FUNCTIONS (Poin 1)
         function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
-            }
+            document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden'; // Kunci scroll halaman utama saat pop-up aktif
         }
 
         function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            if (modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = ''; // Aktifkan kembali scroll utama
-            }
+            document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = ''; // Mengembalikan scroll body
         }
 
-        // Tutup modal jika area background hitam di luar box diklik
         function closeModalOnOverlay(event, modalId) {
             if (event.target.id === modalId) {
                 closeModal(modalId);
             }
         }
 
-        // 3. INTERSECTION OBSERVER FOR FADE-IN SECTIONS
+        // 3. INTERSECTION OBSERVER FOR NAV & FADE EFFECTS
         const sections = document.querySelectorAll('section');
-        const popSections = document.querySelectorAll('.pop-section');
+        const fadeSections = document.querySelectorAll('.fade-section');
         const navLinks = document.querySelectorAll('nav a');
 
         const navObserverOptions = { root: null, rootMargin: '-40% 0px -40% 0px', threshold: 0 };
@@ -478,33 +489,17 @@
 
         sections.forEach(section => navObserver.observe(section));
 
-        const popObserverOptions = { root: null, rootMargin: '0px 0px 0px 0px', threshold: 0.01 };
-        const popObserver = new IntersectionObserver((entries) => {
+        const fadeObserverOptions = { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.05 };
+        const fadeObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                } else {
-                    const rect = entry.boundingClientRect;
-                    if (rect.top > (window.innerHeight || document.documentElement.clientHeight) || rect.bottom < 0) {
-                        entry.target.classList.remove('visible');
-                    }
+                    fadeObserver.unobserve(entry.target);
                 }
             });
-        }, popObserverOptions);
+        }, fadeObserverOptions);
 
-        popSections.forEach(el => popObserver.observe(el));
-
-        // Fallback pemicu awal muat halaman
-        window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                popSections.forEach(el => {
-                    const rect = el.getBoundingClientRect();
-                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
-                        el.classList.add('visible');
-                    }
-                });
-            }, 150);
-        });
+        fadeSections.forEach(section => fadeObserver.observe(section));
     </script>
 </body>
 </html>
