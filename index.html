@@ -246,7 +246,7 @@
     <section id="home" class="fade-section visible">
         <h1>Diego Kairos</h1>
         <p style="font-size: 1.2rem; max-width: 600px; margin: 10px 0 0 0;">
-            Hey welcome to Diego's page. Here you can find a detailed profile about him.
+            Hey, welcome to Diego's page. Here you can find a detailed profile about him.
         </p>
     </section>
 
@@ -258,7 +258,7 @@
             <p>I’m a simple person. I build chemistry through casual chats or deep conversations. I’m a loyal listener who never judges and a responder who is genuine and thoughtful. You can share anything with me without hesitation. I’m also a yapper—someone who loves to chat about everything, from the little details of your day to the most unexpected topics. I want to be the place where you feel safest and most comfortable. I adapt easily to any situation and follow the vibe naturally. I know when to tell stories and when to simply listen.</p>
             <p>I show my affection through kind and heartfelt words, small thoughtful gifts, and spending quality time together. I enjoy relaxed but meaningful moments, like listening to music together or sharing stories late at night. In a relationship, I make sure our communication is open and two-way while respecting your boundaries. I aim to create comfort and trust through my genuine actions. I notice even the smallest changes in you. With me, you don’t need to pretend or feel pressured. From the very beginning, I accept you exactly as you are.</p>
             <p>I also love R&B—it feels like it represents me: chill yet intense. Some of my favorite artists are DEAN, DPR Live, Frank Ocean, and Keshi. I also enjoy playing Magic Chess Go Go, chill but still strategic. I like playing guitar and piano too, though just casually—I often jam for fun rather than seriously practicing. I’m also a fan of MotoGP and love following eSports, especially MLBB. Sharing these little passions with someone makes every moment more fun.</p>
-            <p style="margin-bottom: 0;">I’m not here just to be someone, but to create real and memorable moments. We’ll enjoy our story together, comfortably and naturally. If you’re looking for someone to share laughter, talks, and quiet moments with, I’m here for you.</p>
+            <p style="margin-bottom: 0;">I’m not here just to be someone, but to create real and memorable moments. We'll enjoy our story together, comfortably and naturally. If you’re looking for someone to share laughter, talks, and quiet moments with, I’m here for you.</p>
         </div>
     </section>
 
@@ -297,8 +297,11 @@
             </div>
             <div class="box" style="background: var(--bg-card); display: flex; flex-direction: column;">
                 <h3>General Notes</h3>
-                <p style="font-size: 0.9rem; margin-bottom: 15px;">Personal Notepad (Auto-save):</p>
-                <textarea id="localNotes" rows="10" placeholder="Tulis catatan pribadi kamu di sini..." style="flex-grow: 1;"></textarea>
+                <p style="font-size: 0.9rem; margin-bottom: 15px;">Important notes:</p>
+                <!-- Atribut readonly ditambahkan di bawah ini agar teks tidak bisa diedit/diketik -->
+                <textarea id="localNotes" rows="10" placeholder="Tulis catatan di sini..." readonly>1. July 26th - 31th rest except Telegram
+2. July 26th - 31th only available for low maintenance
+3. Avail booked for August.</textarea>
             </div>
         </div>
     </section>
@@ -342,20 +345,6 @@
                 themeIcon.textContent = '☾';
             }
         }
-
-        // --- LOGIKA DINAMIS STATIS (LOCAL STORAGE) UNTUK GENERAL NOTES ---
-        const localNotesTextarea = document.getElementById('localNotes');
-
-        // Muat catatan lama dari browser saat halaman di-load
-        const savedNotes = localStorage.getItem('diego_general_notes');
-        if (savedNotes !== null) {
-            localNotesTextarea.value = savedNotes;
-        }
-
-        // Simpan setiap ketikan baru secara otomatis
-        localNotesTextarea.addEventListener('input', () => {
-            localStorage.setItem('diego_general_notes', localNotesTextarea.value);
-        });
 
         // --- LOGIKA SCROLL & FADE ANIMATION ---
         const sections = document.querySelectorAll('section');
