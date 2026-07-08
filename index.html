@@ -20,7 +20,7 @@
             --text-main: #e2e8f0;      
             --text-muted: #d3a284;     
             --text-heading: #ffffff;   
-            --accent: #581c24;     
+            --accent: #581c24;         
             --nav-bg: rgba(7, 21, 30, 0.75); /* Transparan */     
             --nav-border: rgba(18, 40, 54, 0.6);
         }
@@ -150,10 +150,10 @@
             color: var(--text-muted); 
         }
 
-        /* EFEK FADE IN - FADE OUT */
+        /* EFEK FADE IN - FADE OUT (MURNI TRANSPARANSI) */
         .pop-section {
             opacity: 0;
-            transition: opacity 0.8s ease-in-out; 
+            transition: opacity 0.6s ease-in-out; 
             will-change: opacity; 
         }
         .pop-section.visible {
@@ -412,7 +412,7 @@
             alert('Perubahan Availability berhasil disimpan!');
         }
 
-        // 3. INTERSECTION OBSERVER 
+        // 3. INTERSECTION OBSERVER (ANTI-BLANK & FIX FADE)
         const sections = document.querySelectorAll('section');
         const popSections = document.querySelectorAll('.pop-section');
         const navLinks = document.querySelectorAll('nav a');
@@ -432,11 +432,11 @@
 
         sections.forEach(section => navObserver.observe(section));
 
-        // Pop Observer 
+        // Pop Observer dengan toleransi tinggi agar langsung memicu fade-in
         const popObserverOptions = { 
             root: null, 
             rootMargin: '0px 0px 0px 0px', 
-            threshold: [0.01, 0.99] 
+            threshold: 0.01 
         };
         
         const popObserver = new IntersectionObserver((entries) => {
@@ -444,7 +444,8 @@
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 } else {
-                    if (entry.boundingClientRect.top > window.innerHeight || entry.boundingClientRect.bottom < 0) {
+                    const rect = entry.boundingClientRect;
+                    if (rect.top > (window.innerHeight || document.documentElement.clientHeight) || rect.bottom < 0) {
                         entry.target.classList.remove('visible');
                     }
                 }
@@ -452,6 +453,18 @@
         }, popObserverOptions);
 
         popSections.forEach(el => popObserver.observe(el));
+
+        // Fungsi Cadangan (Fallback): Paksa memunculkan elemen yang ada di layar saat pertama kali dimuat
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                popSections.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                        el.classList.add('visible');
+                    }
+                });
+            }, 150);
+        });
     </script>
 </body>
 </html>
